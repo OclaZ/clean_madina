@@ -21,7 +21,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
-import { web3Auth } from "@web3auth/modal";
+import { Web3Auth } from "@web3auth/modal";
 import { CHAIN_NAMESPACES, IProvider, WEB3AUTH_NETWORK } from "@web3auth/base";
 import { EthereumPrivateKeyProvider } from "@web3auth/ethereum-provider";
 import {
@@ -29,29 +29,31 @@ import {
   getUnreadNotifications,
   getUserBalance,
   getUserByEmail,
+  markNotificationAsRead,
 } from "@/utils/db/actions";
+import Image from "next/image";
 
 const clientId = process.env.WEB3_AUTH_CLIENT_ID;
 
 const chainConfig = {
   chainNamespace: CHAIN_NAMESPACES.EIP155,
-  chainId: 0xaa36a7,
+  chainId: "0xaa36a7",
   rpcTarget: "https://rpc.ankr.com/eth_sepolia",
-  displayName: "Sepolia Testnet",
+  displayName: "Ethereum Sepolia Testnet",
   blockExplorerUrl: "https://sepolia.etherscan.io",
   ticker: "ETH",
   tickerName: "Ethereum",
-  logo: "https://assets.web3auth.io/evm-chains/sepolia.png",
+  logo: "https://cryptologos.cc/logos/ethereum-eth-logo.png",
 };
 
-const PrivateKeyProvider = new EthereumPrivateKeyProvider({
-  config: [chainConfig],
+const privateKeyProvider = new EthereumPrivateKeyProvider({
+  config: { chainConfig },
 });
 
-const web3Auth = new web3Auth({
+const web3auth = new Web3Auth({
   clientId,
-  web3AuthNetwork: WEB3AUTH_NETWORK.TESTNET,
-  PrivateKeyProvider,
+  web3AuthNetwork: WEB3AUTH_NETWORK.TESTNET, // Changed from SAPPHIRE_MAINNET to TESTNET
+  privateKeyProvider,
 });
 
 interface HeaderProps {
@@ -194,4 +196,38 @@ export default function Header({ onMenuClick, totalEarnings }: HeaderProps) {
       }
     }
   };
+
+  const handleNotificationClick = async (notificationId: number) => {
+    await markNotificationAsRead(notificationId);
+  };
+
+  if (loading) {
+    return <div>Loading Web3Auth ...</div>;
+  }
+
+  return (
+    <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
+      <div className="flex items-center justify-between px-4 py-2">
+        <div className="flex items-center">
+          <Button
+            variant="ghost"
+            size={"icon"}
+            onClick={onMenuClick}
+            className="mr-2 md:mr-4"
+          >
+            <Menu className="h-6 w-6" />
+          </Button>
+          <Link href="/" className="flex items-center">
+            <Image
+              src="/LOGO.svg"
+              alt="Logo"
+              width={200}
+              height={50}
+              priority
+            />
+          </Link>
+        </div>
+      </div>
+    </header>
+  );
 }
