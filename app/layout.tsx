@@ -8,15 +8,15 @@ import "./globals.css";
 //sidebar
 import { Toaster } from "react-hot-toast";
 import Header from "@/components/Header";
-import Sidebar from "@/components/SideBar";
+import Sidebar from "@/components/Sidebar";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [totalEarnings, setTotalEarnings] = useState(0);
 
