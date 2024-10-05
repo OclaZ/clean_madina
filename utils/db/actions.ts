@@ -119,8 +119,8 @@ export async function createReport(
       .insert(Repports)
       .values({
         userId,
-        wasteType,
         location,
+        wasteType,
         amount,
         imageUrl,
         verificationResult,
@@ -201,5 +201,20 @@ export async function createNotification(
   } catch (error) {
     console.error("Error creating notification:", error);
     return null;
+  }
+}
+
+export async function getRecentReports(limit: number = 10) {
+  try {
+    const reports = await db
+      .select()
+      .from(Repports)
+      .orderBy(desc(Repports.createdAt))
+      .limit(limit)
+      .execute();
+    return reports;
+  } catch (error) {
+    console.error("Error fetching recent reports:", error);
+    return [];
   }
 }
