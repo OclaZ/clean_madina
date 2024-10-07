@@ -110,6 +110,7 @@ export default function Header({ onMenuClick, totalEarnings }: HeaderProps) {
         const user = await getUserByEmail(userInfo.email);
         if (user) {
           const unreadNotifications = await getUnreadNotifications(user.id);
+          //@ts-ignore
           setNotifications(unreadNotifications);
         }
       }

@@ -48,8 +48,8 @@ export async function getUnreadNotifications(userId: number) {
       )
       .execute();
   } catch (error) {
-    console.log("error fetching unread notifications", error);
-    return null;
+    console.error("Error fetching unread notifications:", error);
+    return [];
   }
 }
 
