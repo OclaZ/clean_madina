@@ -53,8 +53,8 @@ export default function Home() {
           <span className="text-green-600">Environmental Services</span>
         </h1>
         <p className="text-gray-600 text-xl max-w-2xl mx-auto leading-relaxed mb-8 mt-2">
-          Become part of our initiative to transform waste management and make
-          Environmental Services more efficient and rewarding!
+          Efficiently manage waste collection and environmental services across
+          Moroccan cities.
         </p>
         <Button className="bg-green-600 hover:bg-green-700 text-white text-lg py-6 px-10 rounded-full">
           Get Started

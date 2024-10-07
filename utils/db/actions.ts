@@ -6,7 +6,9 @@ import {
   Rewards,
   Transactions,
   Users,
+  CollectedWastes,
 } from "./schema";
+import { date } from "drizzle-orm/mysql-core";
 
 export async function createUser(email: string, name: string) {
   try {
@@ -108,8 +110,9 @@ export async function markNotificationAsRead(notificationId: number) {
 
 export async function createReport(
   userId: number,
-  wasteType: string,
   location: string,
+  wasteType: string,
+
   amount: string,
   imageUrl?: string,
   verificationResult?: any
@@ -216,5 +219,141 @@ export async function getRecentReports(limit: number = 10) {
   } catch (error) {
     console.error("Error fetching recent reports:", error);
     return [];
+  }
+}
+export async function getAvaibleRewards(userId: number) {
+  try {
+    const userTransactions = await getRewardTransactions(userId);
+    const userPoints = userTransactions?.reduce(
+      (total: any, transaction: any) => {
+        return transaction.type.startsWith("earned")
+          ? total + transaction.amount
+          : total - transaction.amount;
+      },
+      0
+    );
+    const dbRewards = await db
+      .select({
+        id: Rewards.id,
+        name: Rewards.name,
+        cost: Rewards.points,
+        description: Rewards.description,
+        collectionInfo: Rewards.collectionInfo,
+      })
+      .from(Rewards)
+      .where(eq(Rewards.isAvailable, true))
+      .execute();
+    const allRewards = [
+      {
+        id: 0,
+        name: "Your Points",
+        cost: userPoints,
+        description: "Redeem your earned points",
+        collectionInfo: "Points earned from reporting and collecting waste",
+      },
+      ...dbRewards,
+    ];
+    return allRewards;
+  } catch (error) {
+    console.error("Error fetching available rewards:", error);
+    return [];
+  }
+}
+
+export async function getWasteCollectionTasks(limit: number = 20) {
+  try {
+    const tasks = await db
+      .select({
+        id: Repports.id,
+        location: Repports.location,
+        wasteType: Repports.wasteType,
+        amount: Repports.amount,
+        status: Repports.status,
+        date: Repports.createdAt,
+        collectorId: Repports.collectorId,
+      })
+      .from(Repports)
+      .limit(limit)
+      .execute();
+
+    return tasks.map((task: any) => ({
+      ...task,
+      date: task.date.toISOString().split("T")[0],
+    }));
+  } catch (error) {
+    console.error("Error fetching waste collection tasks:", error);
+    return [];
+  }
+}
+
+export async function updateTaskStatus(
+  reportId: number,
+  newStatus: string,
+  collecorId: number
+) {
+  try {
+    const updateData: any = { status: newStatus };
+    if (collecorId !== undefined) {
+      updateData.collecorId = collecorId;
+    }
+    const [updateReport] = await db
+      .update(Repports)
+      .set(updateData)
+      .where(eq(Repports.id, reportId))
+      .returning()
+      .execute();
+
+    return updateReport;
+  } catch (error) {
+    console.error("Error updating task status:", error);
+    throw error;
+  }
+}
+
+export async function saveReward(userId: number, amount: number) {
+  try {
+    const [reward] = await db
+      .insert(Rewards)
+      .values({
+        userId,
+        name: "Waste Collection Reward",
+        collectionInfo: "Points earned from waste collection",
+        points: amount,
+        isAvailable: true,
+      })
+      .returning()
+      .execute();
+
+    await createTransaction(
+      userId,
+      "earned_collect",
+      amount,
+      "Points earned from waste collection"
+    );
+  } catch (error) {
+    console.error("Error saving reward:", error);
+    throw error;
+  }
+}
+export async function saveCollectedWaste(
+  reportId: number,
+  collectorId: number,
+  verificationResult: any
+) {
+  try {
+    const [collectedWaste] = await db
+      .insert(CollectedWastes)
+      .values({
+        reportId,
+        collectorId,
+        collectionDate: new Date(),
+        status: "verified",
+      })
+      .returning()
+      .execute();
+    return collectedWaste;
+  } catch (error) {
+    console.error("Error saving collected waste:", error);
+    throw error;
   }
 }
