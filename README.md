@@ -1,43 +1,36 @@
 <div align="center">
   <br />
-    <a >
+    <a>
       <img src="public/assets/APP BANNER.png" alt="Project Banner"> 
     </a>
   <br />
 
   <div>
     <img src="https://img.shields.io/badge/-Next_JS-black?style=for-the-badge&logoColor=white&logo=nextdotjs&color=000000" alt="nextdotjs" />
-    <img src="https://img.shields.io/badge/-TypeScript-black?style=for-the-badge&logoColor=white&logo=typescript&color=3178C6" alt="typescript" />
-    <img src="https://img.shields.io/badge/-Tailwind_CSS-black?style=for-the-badge&logoColor=white&logo=tailwindcss&color=06B6D4" alt="tailwindcss" />
-    <img src="https://img.shields.io/badge/-Appwrite-black?style=for-the-badge&logoColor=white&logo=appwrite&color=FD366E" alt="appwrite" />
+    <img src="https://img.shields.io/badge/-PostgreSQL-black?style=for-the-badge&logoColor=white&logo=postgresql&color=336791" alt="postgresql" />
+    <img src="https://img.shields.io/badge/-Drizzle_ORM-black?style=for-the-badge&logoColor=white&logo=drizzle&color=3A66B5" alt="drizzle" />
+    <img src="https://img.shields.io/badge/-Vercel-black?style=for-the-badge&logoColor=white&logo=vercel&color=000000" alt="vercel" />
   </div>
 
-# Maw3id - HealthCare Management System
+# CleanMadina - Moroccan Waste Management Application
 
-![Maw3id Logo](public/assets/icons/LOGO.svg)
+![CleanMadina Logo](public/assets/icons/LOGO.svg)
 
-Maw3id is a healthcare patient management application that allows patients to easily register, book, and manage their appointments with doctors. It also features administrative tools for scheduling, confirming, and canceling appointments, along with SMS notifications. This project is built with modern technologies, ensuring a responsive and efficient experience across devices.
+CleanMadina is a Moroccan waste management application developed using Next.js. This app aims to streamline waste collection processes and enhance community engagement in environmental sustainability. 
 
 ## 🖥️ Tech Stack
 
 - **Next.js**: React framework for building fast, user-friendly web applications.
-- **TypeScript**: Static typing to catch errors early and improve the developer experience.
-- **TailwindCSS**: Utility-first CSS framework for styling.
-- **Appwrite**: Backend-as-a-service for authentication, database, and storage.
-- **ShadCN**: Pre-designed React components for rapid UI development.
-- **Twilio**: For sending SMS notifications to patients.
+- **PostgreSQL**: Relational database for managing application data.
+- **Drizzle ORM**: A TypeScript ORM for PostgreSQL.
+- **Vercel**: Platform for frontend deployment.
 
 ## 📋 Features
 
-- **Patient Registration**: Sign up and create a personal profile.
-- **Appointment Booking**: Schedule and manage appointments with doctors.
-- **Admin Tools**:
-  - View all scheduled appointments.
-  - Confirm and schedule appointment times.
-  - Cancel appointments.
-- **SMS Notifications**: Notify patients via SMS when appointments are confirmed.
-- **File Upload**: Store files securely using Appwrite storage.
-- **Performance Monitoring**: Track performance using Sentry.
+- **User-Friendly Interface**: Intuitive design for easy navigation and user experience.
+- **Waste Reporting**: Users can report waste issues within their community.
+- **Rewards System**: Users earn rewards for participating in waste management initiatives.
+- **Notifications**: Timely updates on waste collection schedules and community activities.
 - **Responsive Design**: Optimized for all screen sizes.
 
 ## 🚀 Quick Start
@@ -52,11 +45,11 @@ Ensure you have the following installed on your machine:
 
 ### Installation Steps
 
-1. Clone the repository:
+Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/maw3id.git
-   cd maw3id
+   git clone https://github.com/yourusername/clean-madina.git
+   cd clean-madina
    ```
 
 2. Install dependencies:
@@ -69,18 +62,14 @@ Ensure you have the following installed on your machine:
    Create a `.env.local` file in the root of your project with the following content:
 
    ```bash
-   NEXT_PUBLIC_ENDPOINT=https://cloud.appwrite.io/v1
-   PROJECT_ID=your_project_id
-   API_KEY=your_api_key
-   DATABASE_ID=your_database_id
-   PATIENT_COLLECTION_ID=your_patient_collection_id
-   APPOINTMENT_COLLECTION_ID=your_appointment_collection_id
-   NEXT_PUBLIC_BUCKET_ID=your_bucket_id
-   NEXT_PUBLIC_ADMIN_PASSKEY=111111
+   DATABASE_URL=your_database_url
+   WEB3_AUTH_CLIENT_ID=your_web3_auth_client_id
+   GEMINI_API_KEY=your_gemini_api_key
+   GOOGLE_MAPS_API_KEY=your_google_maps_api_key
+
    ```
 
-   Replace the placeholder values with your actual credentials from Appwrite.
-
+  Replace the placeholder values with your actual credentials.
 4. Run the development server:
 
    ```bash
@@ -88,25 +77,6 @@ Ensure you have the following installed on your machine:
    ```
 
    Open [http://localhost:3000](http://localhost:3000) in your browser to view the app.
-
-## 📦 Project Structure
-
-The project follows a modular structure for scalability and reusability:
-
-- `pages/`: Contains the app’s main routes.
-- `components/`: Reusable UI components.
-- `lib/`: Utility functions.
-- `types/`: TypeScript type definitions.
-- `public/`: Static assets (images, icons, etc.).
-
-## 💡 Key Code Snippets
-
-Key utility files used in this project:
-
-- `tailwind.config.ts`: TailwindCSS configuration.
-- `lib/utils.ts`: Utility functions for reusable code.
-- `lib/validation.ts`: Form validation utilities.
-- `types/appwrite.types.ts`: Appwrite-related TypeScript types.
 
 ## 📱 Contact
 
