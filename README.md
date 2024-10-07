@@ -1,7 +1,7 @@
 <div align="center">
   <br />
     <a>
-      <img src="public/assets/APP BANNER.png" alt="Project Banner"> 
+      <img src="public/CleanMadina.png" alt="Project Banner"> 
     </a>
   <br />
 
@@ -14,7 +14,7 @@
 
 # CleanMadina - Moroccan Waste Management Application
 
-![CleanMadina Logo](public/assets/icons/LOGO.svg)
+![CleanMadina Logo](public/LOGO WHITE.svg)
 
 CleanMadina is a Moroccan waste management application developed using Next.js. This app aims to streamline waste collection processes and enhance community engagement in environmental sustainability. 
 
