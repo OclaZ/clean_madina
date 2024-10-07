@@ -14,7 +14,7 @@
 
 # CleanMadina - Moroccan Waste Management Application
 
-![CleanMadina Logo](public/LOGO WHITE.svg)
+![CleanMadina Logo](public/logo.png)
 
 CleanMadina is a Moroccan waste management application developed using Next.js. This app aims to streamline waste collection processes and enhance community engagement in environmental sustainability. 
 
