@@ -33,6 +33,14 @@ import {
   getUserBalance,
 } from "@/utils/db/actions";
 import Image from "next/image";
+interface Notification {
+  id: number;
+  createdAt: Date;
+  userId: number;
+  message: string;
+  type: string;
+  isRead: boolean;
+}
 
 const clientId = process.env.WEB3_AUTH_CLIENT_ID;
 
@@ -110,7 +118,6 @@ export default function Header({ onMenuClick, totalEarnings }: HeaderProps) {
         const user = await getUserByEmail(userInfo.email);
         if (user) {
           const unreadNotifications = await getUnreadNotifications(user.id);
-          //@ts-ignore
           setNotifications(unreadNotifications);
         }
       }
