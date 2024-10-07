@@ -78,3 +78,12 @@ export const Transactions = pgTable("transactions", {
   description: text("description").notNull(),
   date: timestamp("date").defaultNow().notNull(),
 });
+
+export const schema = {
+  Users,
+  Repports,
+  Rewards,
+  CollectedWastes,
+  Notifications,
+  Transactions,
+};

@@ -22,6 +22,7 @@ import {
   getUserByEmail,
 } from "@/utils/db/actions";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import Image from "next/image";
 
 const geminiApiKey = process.env.GEMINI_API_KEY as any;
 
@@ -407,7 +408,7 @@ export default function CollectPage() {
               </div>
             </div>
             {verificationImage && (
-              <img
+              <Image
                 src={verificationImage}
                 alt="Verification"
                 className="mb-4 rounded-md w-full"
