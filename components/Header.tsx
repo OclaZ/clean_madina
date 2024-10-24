@@ -34,6 +34,16 @@ import {
 } from "@/utils/db/actions";
 import Image from "next/image";
 
+// Define the custom notification interface to match the database structure
+interface DBNotification {
+  id: number;
+  createdAt: Date;
+  userId: number;
+  message: string;
+  type: string;
+  isRead: boolean;
+}
+
 const clientId = process.env.WEB3_AUTH_CLIENT_ID;
 
 const chainConfig = {
@@ -53,7 +63,7 @@ const privateKeyProvider = new EthereumPrivateKeyProvider({
 
 const web3auth = new Web3Auth({
   clientId,
-  web3AuthNetwork: WEB3AUTH_NETWORK.TESTNET, // Changed from SAPPHIRE_MAINNET to TESTNET
+  web3AuthNetwork: WEB3AUTH_NETWORK.TESTNET,
   privateKeyProvider,
 });
 
@@ -68,7 +78,7 @@ export default function Header({ onMenuClick, totalEarnings }: HeaderProps) {
   const [loading, setLoading] = useState(true);
   const [userInfo, setUserInfo] = useState<any>(null);
   const pathname = usePathname();
-  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [notifications, setNotifications] = useState<DBNotification[]>([]);
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [balance, setBalance] = useState(0);
 
@@ -90,7 +100,6 @@ export default function Header({ onMenuClick, totalEarnings }: HeaderProps) {
               await createUser(user.email, user.name || "Anonymous User");
             } catch (error) {
               console.error("Error creating user:", error);
-              // Handle the error appropriately, maybe show a message to the user
             }
           }
         }
@@ -110,15 +119,14 @@ export default function Header({ onMenuClick, totalEarnings }: HeaderProps) {
         const user = await getUserByEmail(userInfo.email);
         if (user) {
           const unreadNotifications = await getUnreadNotifications(user.id);
-          setNotifications(unreadNotifications as Notification[]);
+          setNotifications(unreadNotifications as DBNotification[]);
         }
       }
     };
 
     fetchNotifications();
 
-    // Set up periodic checking for new notifications
-    const notificationInterval = setInterval(fetchNotifications, 30000); // Check every 30 seconds
+    const notificationInterval = setInterval(fetchNotifications, 30000);
 
     return () => clearInterval(notificationInterval);
   }, [userInfo]);
@@ -136,7 +144,6 @@ export default function Header({ onMenuClick, totalEarnings }: HeaderProps) {
 
     fetchUserBalance();
 
-    // Add an event listener for balance updates
     const handleBalanceUpdate = (event: CustomEvent) => {
       setBalance(event.detail);
     };
@@ -171,7 +178,6 @@ export default function Header({ onMenuClick, totalEarnings }: HeaderProps) {
           await createUser(user.email, user.name || "Anonymous User");
         } catch (error) {
           console.error("Error creating user:", error);
-          // Handle the error appropriately, maybe show a message to the user
         }
       }
     } catch (error) {
@@ -205,7 +211,6 @@ export default function Header({ onMenuClick, totalEarnings }: HeaderProps) {
           await createUser(user.email, user.name || "Anonymous User");
         } catch (error) {
           console.error("Error creating user:", error);
-          // Handle the error appropriately, maybe show a message to the user
         }
       }
     }
@@ -230,7 +235,7 @@ export default function Header({ onMenuClick, totalEarnings }: HeaderProps) {
         <div className="flex items-center">
           <Button
             variant="ghost"
-            size={"icon"}
+            size="icon"
             onClick={onMenuClick}
             className="mr-2 md:mr-4"
           >
@@ -260,13 +265,13 @@ export default function Header({ onMenuClick, totalEarnings }: HeaderProps) {
         )}
         <div className="flex items-center">
           {isMobile && (
-            <Button variant={"ghost"} size={"icon"} className="mr-2">
+            <Button variant="ghost" size="icon" className="mr-2">
               <Search className="h-5 w-5" />
             </Button>
           )}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant={"ghost"} size={"icon"} className="mr-2 relative">
+              <Button variant="ghost" size="icon" className="mr-2 relative">
                 <Bell className="h-5 w-5 text-gray-800" />
                 {notifications.length > 0 && (
                   <Badge className="absolute -top-1 -right-1 px-1 min-w-[1.2rem] h-5">
@@ -277,7 +282,7 @@ export default function Header({ onMenuClick, totalEarnings }: HeaderProps) {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-64">
               {notifications.length > 0 ? (
-                notifications.map((notification: any) => (
+                notifications.map((notification) => (
                   <DropdownMenuItem
                     key={notification.id}
                     onClick={() => handleNotificationClick(notification.id)}
@@ -313,13 +318,9 @@ export default function Header({ onMenuClick, totalEarnings }: HeaderProps) {
         ) : (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button
-                variant={"ghost"}
-                size={"icon"}
-                className="flex items-center"
-              >
+              <Button variant="ghost" size="icon" className="flex items-center">
                 <User className="h-5 w-5 mr-1 text-gray-800" />
-                <ChevronDown className="h-4 w-4  text-gray-400" />
+                <ChevronDown className="h-4 w-4 text-gray-400" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
