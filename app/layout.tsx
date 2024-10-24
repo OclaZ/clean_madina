@@ -9,7 +9,7 @@ import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
-import { getAvaibleRewards, getUserByEmail } from "@/utils/db/actions";
+import { getAvailableRewards, getUserByEmail } from "@/utils/db/actions";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,7 +27,9 @@ export default function RootLayout({
         if (userEmail) {
           const user = await getUserByEmail(userEmail);
           if (user) {
-            const availableRewards = (await getAvaibleRewards(user.id)) as any;
+            const availableRewards = (await getAvailableRewards(
+              user.id
+            )) as any;
             setTotalEarnings(availableRewards);
           }
         }
